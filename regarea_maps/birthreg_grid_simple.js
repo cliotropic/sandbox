@@ -1,3 +1,8 @@
+// State-level data on death registration and birth registration.
+// In the US, a registration area is the set of jurisdictions which
+// register at least 90 percent of each year's (deaths|births|marriages).
+// Source: Alice M. Hetzel, U.S. Vital Statistics System Major Activities and Developments, 1950-95 (Hyattsville, Maryland: U.S. Dept. of Health and Human Services, Centers for Disease Control and Prevention, National Center for Health Statistics, 1997), 57.
+
 var birthreg = {
  'AL':  {
 	 state: 'ALABAMA',

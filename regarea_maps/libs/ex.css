@@ -1,19 +1,39 @@
 body {
   margin: 0;
   display: table;
-  height: 90%;
-  width: 100%;
-  font: 14px/134% Helvetica Neue, sans-serif;
+  font: 14px/110% Helvetica Neue, sans-serif;
 }
 
 #center {
-  display: table-cell;
+  display: table-row;
   vertical-align: top;
 }
 
 #fig {
   position: relative;
   margin: auto;
+}
+
+#source {
+  font-size: 80%;
+  line-height: 90%;
+  width:75%; 
+  margin:0 100px 0 100px; 
+  text-align:left; 
+  padding:5px;
+  
+}
+
+#comments {
+	width:75%; 
+	margin:0px 100px 0 100px; 
+	border: 1px solid #666699; 
+	text-align:left; 
+	padding:5px;
+}
+
+#comments p {
+	margin:1px 0 10px 0;	
 }
 
 h2 {

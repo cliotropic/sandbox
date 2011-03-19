@@ -11,14 +11,13 @@
     <script type="text/javascript" src="birthreg_grid_simple.js"></script>
 
     <style type="text/css">
-
 #fig {
   width: 900px;
-  height: 460px;
+  height: 550px;
 }
 
 #container {
-  height: 10px;
+  height: 30px;
 }
 
 #yearSlider {
@@ -26,6 +25,7 @@
   left: 100;
   right: 90;
   margin-top: 0;
+  height: 5;
 }
 
 #yearLabel {
@@ -33,6 +33,7 @@
   left: 0;
   width: 85;
   text-align: right;
+  height:50;
 }
 
 #play {
@@ -58,32 +59,37 @@ $(yearSlider).slider({
  
 var year = birthreg.minYear;
 
-var w = 890,
+// These adjust how wide the scale of years on the slider is
+var w = 910,
     h = 500,
     yearsMargin = 100;
-
-var scale = pv.Geo.scale()
-    .domain({lng: -128, lat: 24}, {lng: -64, lat: 50})
-    .range({x: 0, y: 0}, {x: w, y: h});
 
 var yearsScale = pv.Scale.linear()
     .domain(birthreg.minYear, birthreg.maxYear)
     .range(yearsMargin + 2, w - yearsMargin);
 
-// TO DO: clean this mess up with some bitwise logic.
-var labels = ["neither DRA nor BRA", "DRA", "DRA and BRA"];
-var colors = pv.colors("#CCCCCC","#9999cc","#666699");
+// Sets up how to draw the geo data from us_lowres.js
+var scale = pv.Geo.scale()
+    .domain({lng: -128, lat: 24}, {lng: -64, lat: 50})
+    .range({x: 0, y: 0}, {x: w, y: h});
 
+
+// TO DO: clean this mess up with some bitwise logic, 
+//        put it together with the col() function.
+var labels = ["neither DRA nor BRA", "DRA", "DRA and BRA"];
+var colors = pv.colors("#CCCCCC","#dddd33","#666699");
+
+// Colors for a state, given a year and the state's data
 var col = function(y, d) {
   var inBRA = (y >= d.year_entered_birth_reg_area);
   var inDRA = (y >= d.year_entered_death_reg_area);
-  if (!inBRA && !inDRA) return "#CCCCCC";
-  if (!inBRA && inDRA) return "#9999cc";
-  if (inBRA && inDRA) return "#666699";
+  if (!inBRA && !inDRA) return "#CCCCCC";  // gray
+  if (!inBRA && inDRA) return "#dddd33";   // light yellow
+  if (inBRA && inDRA) return "#666699";    // dark purple
   return "#000000";
 };
 
-// Find the centroid for each state
+// Find the centroid for each state, for drawing state labels
 us_lowres.forEach(function(c) {
   c.code = c.code.toUpperCase();
   c.centLatLon = centroid(c.borders[0]);
@@ -103,7 +109,7 @@ function playClick() {
       if (year >= birthreg.maxYear) stop();
       $(yearSlider).slider('value', year);
       vis.render();
-    }, 900);
+    }, 600);
   }
 }
 
@@ -182,8 +188,19 @@ vis.render();
     </div>
 
   </div>
+</div> <!-- fig -->
+</div> <!-- center -->
+
+<div style="vertical-align:top; text-align:center">
+<div id="source"><b>Data source</b>: Alice M. Hetzel, <em>U.S. Vital Statistics System Major Activities and Developments, 1950-95</em> (Hyattsville, Maryland: U.S. Dept. of Health and Human Services, Centers for Disease Control and Prevention, National Center for Health Statistics, 1997), 59 (<a href="http://www.cdc.gov/nchs/data/misc/usvss.pdf">PDF here</a>).
 </div>
-<div style="width:90%; top-margin:10px; border:1px solid purple;display:table-row; vertical-align:top;">
-(The "death registration area" and "birth registration area" were/are the jurisdictions which meet the federal standard of registering at least 90% of each year's deaths (or births). This is a little tool I'm using to work through some policy diffusion questions for my <a href="http://cliotropic.org/blog/about/#research">dissertation</a>. It was built with <a href="http://vis.stanford.edu/protovis/">Protovis</a>.)
-</div></body>
+<div id="comments">
+<p>The "death registration area" (DRA) and "birth registration area" (BRA) were/are the jurisdictions which meet the federal standard of registering at least 90% of each year's deaths (or births). 
+</p>
+<p>This is a little tool I'm using to work through some policy diffusion questions for my <a href="http://cliotropic.org/blog/about/#research">dissertation</a>. It was built with <a href="http://vis.stanford.edu/protovis/">Protovis</a>. If you want to make something similar for your own research, you can browse the source code or download a copy from <a href="https://github.com/cliotropic/sandbox/tree/master/regarea_maps">my GitHub repository</a>.
+</div>
+</div>
+
+
+</body>
 </html>
