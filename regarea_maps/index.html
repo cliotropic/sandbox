@@ -76,15 +76,15 @@ var scale = pv.Geo.scale()
 
 // TO DO: clean this mess up with some bitwise logic, 
 //        put it together with the col() function.
-var labels = ["neither DRA nor BRA", "DRA", "DRA and BRA"];
-var colors = pv.colors("#CCCCCC","#dddd33","#666699");
+var labels = ["registered <90% of estimated deaths & births", "registered >= 90% of estimated deaths", "registered >= 90% of estimated deaths & births"];
+var colors = pv.colors("#ddddcc","#bbbb44","#666699");
 
 // Colors for a state, given a year and the state's data
 var col = function(y, d) {
   var inBRA = (y >= d.year_entered_birth_reg_area);
   var inDRA = (y >= d.year_entered_death_reg_area);
-  if (!inBRA && !inDRA) return "#CCCCCC";  // gray
-  if (!inBRA && inDRA) return "#dddd33";   // light yellow
+  if (!inBRA && !inDRA) return "#ddddcc";  // gray-yellow
+  if (!inBRA && inDRA) return "#bbbb44";   // dark gold
   if (inBRA && inDRA) return "#666699";    // dark purple
   return "#000000";
 };
